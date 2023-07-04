@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./Mr.Gam/Search Tool v1 - program codes - modules/problem"
+    ]
+}

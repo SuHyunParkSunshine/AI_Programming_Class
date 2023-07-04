@@ -5,7 +5,7 @@ import math
 #problem/Ackley.txt
 #problem/Griewank.txt
 
-DELTA = 0.01   # Mutation step size
+DELTA = 0.01   # Mutation step size 변수에 변형을 가하는 것.
 NumEval = 0    # Total number of evaluations
 
 
@@ -21,7 +21,7 @@ def main():
     displayResult(solution, minimum)
 
 
-def createProblem(): ###
+def createProblem(): 
     ## Read in an expression and its domain from a file.
     fileName = input("Enter the filename of a fuction: ")
     # fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v1 - program codes/problem/{fileName}.txt"   

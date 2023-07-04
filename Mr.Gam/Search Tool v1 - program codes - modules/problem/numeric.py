@@ -5,19 +5,6 @@ DELTA = 0.01   # Mutation step size
 LIMIT_STUCK = 100 # Max number of evaluations enduring no improvement
 NumEval = 0    # Total number of evaluations
 
-
-def main():
-    # Create an instance of numerical optimization problem
-    p = createProblem()   # 'p': (expr, domain)
-    # Call the search algorithm
-    solution, minimum = firstChoice(p)
-    # Show the problem and algorithm settings
-    describeProblem(p)
-    displaySetting()
-    # Report results
-    displayResult(solution, minimum)
-
-
 def createProblem(): ###
     ## Read in an expression and its domain from a file.
     fileName = input("Enter the filename of a fuction: ")
@@ -49,23 +36,6 @@ def createProblem(): ###
     infile.close()
     return expression, domain
 
-
-def firstChoice(p):
-    current = randomInit(p)   # 'current' is a list of values
-    valueC = evaluate(current, p)
-    i = 0
-    while i < LIMIT_STUCK:
-        successor = randomMutant(current, p)
-        valueS = evaluate(successor, p)
-        if valueS < valueC:
-            current = successor
-            valueC = valueS
-            i = 0              # Reset stuck counter
-        else:
-            i += 1
-    return current, valueC
-
-
 def randomInit(p): ###
 
     domain = p[1]
@@ -76,32 +46,25 @@ def randomInit(p): ###
     for i in range(len(low)):
         r = rd.uniform(low[i], up[i]) #uniform low bound, upper bound 에서 수를 랜덤하게 뽑아냄
         init.append(r)
+
     return init    # Return a random initial point
                    # as a list of values
 
 def evaluate(current, p):
     ## Evaluate the expression of 'p' after assigning
     ## the values of 'current' to the variables
-    global NumEval
+    global NumEval #함수 내부에서 값이 바뀔때는 global 선언을 해주어야 한다. 
     
     NumEval += 1
     expr = p[0]         # p[0] is function expression
-    varNames = p[1][0]  # p[1] is domain: [varNames, low, up]
+    # domain = p[1] # p[1] is domain
+    # varNames = domain[0]  
+    varNames = p[1][0]
     for i in range(len(varNames)):
-        assignment = varNames[i] + '=' + str(current[i])
-        exec(assignment)
-    return eval(expr)
-
-
-def randomMutant(current, p): ###
-    i = rd.randint(0, len(current) - 1) #우리는 0,1,2,3,4를 뽑아내야대기 때문에 '-1'해줘야한다.
-    # d = rd.uniform(-DELTA, DELTA)
-    if rd.uniform(0,1) > 0.5:
-        d = DELTA
-    else:
-        d = -DELTA
-    return mutate(current, i, d, p) # Return a random successor
-
+        assignment = varNames[i] + '=' + str(current[i]) #ex. 'x1 = 3.2' 이런식으로 들어감
+        exec(assignment) #exec함수: statement 계산 (String 값) -> 문자열로 표현된 식을 exec함수가 계산 가능한 함수로 인식
+    return eval(expr) 
+    #eval함수: expression 계산 (String 값) -> 문자열로 표현된 식을 exec함수가 계산 가능한 함수로 인식
 
 def mutate(current, i, d, p): ## Mutate i-th of 'current' if legal
     curCopy = current[:]
@@ -125,7 +88,7 @@ def describeProblem(p):
 
 def displaySetting():
     print()
-    print("Search algorithm: First-Choice Hill Climbing")
+    print("Search algorithm: Steepest-Ascent Hill Climbing")
     print()
     print("Mutation step size:", DELTA)
 
@@ -140,8 +103,3 @@ def displayResult(solution, minimum):
 def coordinate(solution):
     c = [round(value, 3) for value in solution]
     return tuple(c)  # Convert the list to a tuple
-
-main()
-
-#first-choice: 단순, 제일 좋진 않아도 좋으면 고!! 따라서, steepest ascent보다 짧게 걸린다.
-#steepest ascent: 제일 좋은 걸 찾아서 고!!
