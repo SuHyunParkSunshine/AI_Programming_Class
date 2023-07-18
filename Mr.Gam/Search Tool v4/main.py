@@ -12,7 +12,7 @@ def main():
 
 def readPlanAndCreate():
     parameters = readValidPlan()  # Read and store in 'parameters'
-    p = createProblem(parameters)
+    p, pType = createProblem(parameters)
     alg = createOptimizer(parameters)
     return p, alg
 
@@ -28,7 +28,7 @@ def readValidPlan():  # Gradient Descent cannot solve TSP
 
 def readPlan():
     fileName = input("Enter the file name of experimental setting: ")    
-    fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v4/{fileName}.txt"    
+    # fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v4/{fileName}.txt"    
     infile = open(fileName, 'r')
     parameters = { 'pType':0, 'pFileName':'', 'aType':0, 'delta':0,
                    'limitStuck':0, 'alpha':0, 'dx':0, 'numRestart':0,
@@ -66,7 +66,7 @@ def createProblem(parameters): ###
 def createOptimizer(parameters): ###
     # Create an optimizer instance (a class object) 'alg' of the type  
     # as specified by 'aType', set the class variables, and return 'alg'.
-    aType = parameters(['aType'])
+    aType = parameters['aType']
 
     optimizers = {1 : 'SteepestAcent()', 2 : 'FirstChoice()', 3 : 'Stochastic()', 4 : 'GradientDescent()'}
     

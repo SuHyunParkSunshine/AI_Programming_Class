@@ -19,8 +19,8 @@ class Problem:
         self._pFileName = ''
 
     def setVariables(self, parameters): #createProblem
-        self._pFileName = parameters('pFileName') #overriding 하면 setup에 있는거 안 쓰고 overriding 된 거 사용, explicit 
         Setup.setVariables(self, parameters) # 이후 Setup의 setVariavles를 사용
+        self._pFileName = parameters['pFileName'] #overriding 하면 setup에 있는거 안 쓰고 overriding 된 거 사용, explicit 
 
     def getSolution(self):
         return self._solution

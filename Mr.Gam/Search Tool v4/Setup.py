@@ -6,10 +6,10 @@ class Setup:
         self._dx = 0.0
 
     def setVariables(self, parameters):
-        self._aType = parameters('aType')
-        self._delta = parameters('delta')
-        self._alpha = parameters('alpha')
-        self._dx = parameters('dx')
+        self._aType = parameters['aType']
+        self._delta = parameters['delta']
+        self._alpha = parameters['alpha']
+        self._dx = parameters['dx']
 
     def getAtype(self):
         return self._aType
